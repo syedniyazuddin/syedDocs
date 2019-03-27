@@ -1,0 +1,71 @@
+// Apex controller Code 
+public with sharing class AccountController1{
+@AuraEnabled
+
+public static Account saveAccount (Account acc) {
+
+upsert acc;
+return acc;
+}
+}
+
+// Component Code name TestInsertRecords
+
+<aura:component implements="force:appHostable" controller="AccountController1">
+<aura:attribute name="newAccount" type="Account" default="{'SobjectType':'Account','Name' : '',}"/>
+<div>
+<form>
+      <ui:inputText aura:id="AccountName" label="New Account Name"
+                    class="slds-input"
+                    labelClass="slds-form-element__label"
+                    value="{!v.newAccount.Name}"
+                    required="true"/>
+
+<ui:button label="Submit" 
+                   class="slds-button slds-button--neutral"
+                   labelClass="label"
+                   press="{!c.createAccount}"/>
+          <ui:button label="Cancel" 
+                   class="slds-button slds-button--neutral"
+                   labelClass="label" press="{!c.Close}"/>
+</form>
+    </div>
+</aura:component >
+
+
+// Controller Code
+
+({
+  createAccount : function(component, event,helper) {
+    var newAcc = component.get("v.newAccount");
+    var action = component.get("c.saveAccount");
+   
+        
+    action.setParams({ 
+        "acc": newAcc
+    });
+    action.setCallback(this, function(a) {
+           var state = a.getState();
+           var allValid = component.find('AccountName');
+            if (state === "SUCCESS") {
+                var name = a.getReturnValue();
+               alert("Records are inserted sucessfully");
+            }
+         
+       else if (allValid != null) {
+            alert('Enter the values111111');
+        } 
+        
+        
+        });
+    $A.enqueueAction(action)
+    
+}
+   
+})
+
+
+// lightning Application Code
+<aura:application >
+    <c:testInsertRecords />
+ </aura:application>
