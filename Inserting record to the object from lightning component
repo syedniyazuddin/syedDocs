@@ -47,12 +47,13 @@ return acc;
     action.setCallback(this, function(a) {
            var state = a.getState();
            var allValid = component.find('AccountName');
+           var value = allValid('v.value');
             if (state === "SUCCESS") {
                 var name = a.getReturnValue();
                alert("Records are inserted sucessfully");
             }
          
-       else if (allValid != null) {
+       else if (allValid == '') {
             alert('Enter the values111111');
         } 
         
