@@ -1,0 +1,57 @@
+// Apex Class------------------------------------------
+public class TestSearchContacts {
+    @auraEnabled
+    public static list<Contact> findAll(){
+        return [SELECT Id,LastName,FirstName,Phone FROM Contact Limit 50];
+    }
+    @auraEnabled
+    public static list<Contact> findByName(String searchKey){
+        String name = '%' + searchKey + '%';
+        return [SELECT Id,LastName,FirstName,Phone FROM Contact WHERE name like:name Limit 50];
+    }
+    @auraEnabled
+    public static list<Contact> findById(String contactId){
+        
+        return [SELECT Id,LastName,FirstName,Phone FROM Contact WHERE Id=:contactId Limit 50];
+    }
+}
+
+// Controller -------------------------------------
+({
+	doInit : function(component, event, helper) {
+        var action = component.get("c.findAll");
+        action.setCallback(this,function(a){
+            component.set("v.contacts", a.getReturnValue());
+        });
+		 $A.enqueueAction(action);
+	},
+    searchKeyChange: function(component, event) {
+    var searchKey = event.getParam("searchKey");
+    var action = component.get("c.findByName");
+    action.setParams({
+      "searchKey": searchKey
+    });
+    action.setCallback(this, function(a) {
+        component.set("v.contacts", a.getReturnValue());
+    });
+    $A.enqueueAction(action);
+}
+})
+// Component----------------------------------------------------
+<aura:component controller="TestSearchContacts">
+    <aura:attribute name="contacts" type="Contact[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SearchKeyChange" action="{!c.searchKeyChange}"/>
+    <ul class="list-group">
+        <aura:iteration items="{!v.contacts}" var="cont" >
+            
+           <li class="list-group-item">
+                <a  href="{!'/one/one.app?#/sObject/'+ cont.Id}" >
+                    <p>{!cont.LastName}</p>
+                    <p>{!cont.Phone}</p>
+                </a>
+            </li>
+            
+        </aura:iteration>
+    </ul>	
+</aura:component>
