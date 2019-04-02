@@ -1,4 +1,7 @@
+// This Code is for Displaying all the contacts with Search Bar if you click on any contact it will navigate to that particular contact detail page
+====================================================================================================================================================
 // Apex Class------------------------------------------
+
 public class TestSearchContacts {
     @auraEnabled
     public static list<Contact> findAll(){
