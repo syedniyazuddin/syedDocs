@@ -1,0 +1,61 @@
+=========================================
+Visualforce Page
+=========================================
+<apex:page standardController="Account" extensions="testWeatherController">
+    <apex:pageBlock title="{!city}Weather">
+        <apex:pageBlockSection >
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:outputText label="temprature" value="{!temp}" />
+        <apex:outputText label="pressure" value="{!temp}" />
+        <apex:outputText label="minimum_temprature" value="{!temp_min}" />
+        <apex:outputText label="maximum_temprature" value="{!temp_max}" />
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>
+
+=========================================
+Controller
+=========================================
+public with sharing class testWeatherController{
+public String city{get;set;}
+public String temp{get;set;}
+public String pressure{get;set;}
+public String temp_min{get;set;}
+public String temp_max{get;set;}
+public testWeatherController(ApexPages.StandardController stdController)
+{
+Account account=(Account)stdController.getRecord();
+account=[Select Id,ShippingCity from Account Where Id=:Accoint.Id];
+
+String accountCity=account.ShippingCity;
+String apiKey="0128c1f08e2dd1bfd499f316bcbc6a4a";
+
+String requestEndPoint='http://api.openweathermap.org/data/2.5/weather';
+requestEndPoint+='?q='+accountCity;
+requestEndPoint+='&units=metric';
+requestEndPoint+='&APPID='+apiKey;
+
+Http http = newHttp();
+HttpRequest request = new HttpRequest();
+request.stEndPoint(requestEndPoint);
+request.setMethod('GET);
+HttpResponse response =Httpseend(request);
+
+if(response.getStatusCode()==200){
+Map<String,Object> results=(Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+city=[String.valueOf(result.get('name));
+Map<String,Object> results=(Map<String,Object>)(results.get('main'));
+temp=String.valueOf(mainresults.get('temp'));
+pressure=String.valueOf(mainresults.get('pressure'));
+temp_min=String.valueOf(mainresults.get('temp_min'));
+temp_max=String.valueOf(mainresults.get('temp_max'));
+
+}
+
+else
+{
+ApexPages.Message=MyMsg=new ApexPages.Message(ApexPages.Severity.Error,'There was an error in retrieving Information.);
+ApexPages.addMessage(myMsg);
+}
+}
+}
