@@ -1,4 +1,4 @@
-this code is used when your code is no working when you move forword and come to the same page
+MutationObserver allows you to provide a function that is called asynchronously when certain parts of the DOM change, such as adding a child to a node, changing an attribute on a node, or changing the text on a node. As the changes happen, the MutationObserver records them as MutationRecords and then calls a user provided callback at a later time with all the MutationRecords that are pending.
 ==============================================================================================
  
  function callback(mutationList, observer) { // this piece of code is. if a user clicks the back button when he/she is at payment page and move forword then the loader should show
