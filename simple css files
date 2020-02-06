@@ -1,0 +1,9 @@
+https://developer.salesforce.com/forums/?id=906F0000000DEOCIA4
+inline css to display image from static resources
+background-image: url({!URLFOR($Resource.ccrz_CC_Theme_MVI,'images/')}loaderimage.gif);
+
+calling the remote action from javascript
+classname.methodname
+AccountRemoter.getErrorMessages(function(result,event){      
+     customData=result;
+})
