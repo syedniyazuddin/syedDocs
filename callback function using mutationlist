@@ -1,0 +1,15 @@
+this code is used when your code is no working when you move forword and come to the same page
+==============================================================================================
+ 
+ function callback(mutationList, observer) { // this piece of code is. if a user clicks the back button when he/she is at payment page and move forword then the loader should show
+                mutationList.forEach(function(mutation) {
+                    switch(mutation.type) {
+                        case 'childList':
+                            if(mutation.target.className==='paymentTypeContainer sopcc err cc_payment_type'){
+ 			    //your code here
+			    }
+                            break;
+                    }
+                });
+                
+            }
