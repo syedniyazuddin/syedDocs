@@ -1,15 +1,30 @@
 MutationObserver allows you to provide a function that is called asynchronously when certain parts of the DOM change, such as adding a child to a node, changing an attribute on a node, or changing the text on a node. As the changes happen, the MutationObserver records them as MutationRecords and then calls a user provided callback at a later time with all the MutationRecords that are pending.
 ==============================================================================================
  
- function callback(mutationList, observer) { // this piece of code is. if a user clicks the back button when he/she is at payment page and move forword then the loader should show
+ let parentDiv=document.getElementsByClassName("contentBody cc_content_body");
+           
+            parentDiv=parentDiv[0]; 
+             console.log('parentDiv123123',parentDiv);
+            const observerOptions = {
+                childList: true,
+                attributes: true,
+                subtree: true
+            }
+            function callback(mutationList, observer) { // this piece of code is. if a user clicks the back button when he/she is at payment page and move forword then the loader should show
                 mutationList.forEach(function(mutation) {
                     switch(mutation.type) {
                         case 'childList':
-                            if(mutation.target.className==='paymentTypeContainer sopcc err cc_payment_type'){
- 			    //your code here
-			    }
+                           
+                            if(mutation.target.className==='checkoutContent'){
+                                if($('.cc_price,.cc_coupon_section, .cc_coupon_label').is(':visible')){
+                                	$('.cc_coupon_section, .cc_coupon_label').css('display','none');	
+                                } 
+                            }
                             break;
                     }
                 });
                 
             }
+            const customMutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+            var observer = new customMutationObserver(callback);
+            observer.observe(parentDiv, observerOptions);
