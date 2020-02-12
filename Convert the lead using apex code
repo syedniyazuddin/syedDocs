@@ -1,0 +1,13 @@
+list<lead> leads = [select id from lead where Company = 'Company2'];
+        list<Database.LeadConvert> leadsToConvert = new list<Database.LeadConvert>();
+        LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true LIMIT 1];
+        for(lead l: leads){
+            Database.LeadConvert lc = new database.LeadConvert();
+lc.setLeadId(l.id );
+lc.setConvertedStatus( convertStatus.MasterLabel );
+leadsToConvert.add( lc );	
+        }
+
+
+        List<Database.LeadConvertResult> results = Database.convertLead( leadsToConvert );
+System.assert(results[0].isSuccess());
