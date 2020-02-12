@@ -10,4 +10,5 @@ leadsToConvert.add( lc );
 
 
         List<Database.LeadConvertResult> results = Database.convertLead( leadsToConvert );
+        system.debug('results============<<<<<<<'+results[0].getOpportunityId());
 System.assert(results[0].isSuccess());
