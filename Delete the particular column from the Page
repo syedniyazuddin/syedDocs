@@ -1,0 +1,33 @@
+$(document).ready(function() {
+        function myFunction(){
+            let parentDiv=document.getElementsByClassName("contentBody cc_content_body");
+            parentDiv=parentDiv[0]; 
+            const observerOptions = {
+                childList: true,
+                attributes: true,
+                subtree: true
+            }
+            
+            function callback(mutationList, observer) { // this piece of code is. if a user clicks the back button when he/she is at payment page and move forword then the loader should show
+                mutationList.forEach(function(mutation) {
+                    console.log('mutationList====',mutationList);
+                    switch(mutation.type) {
+                        case 'childList':
+                            if(mutation.target.className==='acctmainSection'){
+                                console.log('west');
+                               $('.table-responsive th:nth-child(2), .table-responsive td:nth-child(2)').remove();  
+                            }
+                            break;
+                    }
+                });
+                
+            }
+            const customMutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+            var observer = new customMutationObserver(callback);
+            observer.observe(parentDiv, observerOptions);
+            
+            
+        }
+        
+        myFunction();
+    });
