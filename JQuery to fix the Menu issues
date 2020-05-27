@@ -1,0 +1,41 @@
+$(document).ready(function() {
+        function myFunction(){
+            var checkExist = setInterval(function() {
+                if($('.dropdown-toggle').is(':visible')){
+                    
+                    $('.dropdown-toggle').each(function(index){
+                        if(index== 1){
+                            $(this).hover(function(){
+                                var test = document.getElementsByClassName('dropdown-menu');
+                                test[1].style.display='block';
+                                test[2].style.display='none';
+                            });
+                            
+                        }
+                        else if(index== 2){
+                            $(this).hover(function(){
+                                var test = document.getElementsByClassName('dropdown-menu');
+                                test[2].style.display='block';
+                                test[1].style.display='none';
+                            });
+                            
+                        }
+                        
+                    });
+                  	$('.cc_product').each(function(indx){ 
+                    if(indx== 0 || indx== 1 || indx== 2 ){
+                    	$(this).hover(function(){
+                                var test1 = document.getElementsByClassName('dropdown-menu');
+                                test1[2].style.display='none';
+                                test1[1].style.display='none';
+                            });
+                    }
+                    });
+                    
+                }
+            }, 100);
+            
+        }
+        
+        myFunction();
+    });
