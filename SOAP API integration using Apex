@@ -1,0 +1,25 @@
+public class testFedexIntegration {
+    public static void testFedex(){
+        String key='YEvIRQvI7dRwQ5TJ';
+        String pass = '7EnpEx4FZbSYg9d6TrjCvgngc';
+        String accountNo = '510087100';
+        String meterNo = '119203064';
+        Http h = new Http();
+        HttpRequest req = new HttpRequest();
+        String url = 'https://wsbeta.fedex.com:443/web-services/rate';
+       // String soapXML = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v6="http://fedex.com/ws/rate/v6"> <soapenv:Header/> <soapenv:Body> <v6:RateRequest> <v6:WebAuthenticationDetail> <v6:UserCredential> <v6:Key>YEvIRQvI7dRwQ5TJ</v6:Key> <v6:Password>7EnpEx4FZbSYg9d6TrjCvgngc</v6:Password> </v6:UserCredential> </v6:WebAuthenticationDetail> <v6:ClientDetail> <v6:AccountNumber>510087100</v6:AccountNumber> <v6:MeterNumber>119203064</v6:MeterNumber> </v6:ClientDetail> <v6:Version> <v6:ServiceId>crs</v6:ServiceId> <v6:Major>6</v6:Major> <v6:Intermediate>0</v6:Intermediate> <v6:Minor>0</v6:Minor> </v6:Version> <v6:RequestedShipment> <v6:Shipper> <v6:AccountNumber>510087100</v6:AccountNumber> <v6:Contact> <v6:CompanyName>Popcornapps</v6:CompanyName> <v6:PhoneNumber></v6:PhoneNumber> </v6:Contact> <v6:Address> <v6:StreetLines> 8989 Union </v6:StreetLines> <v6:StreetLines>Turnpike Queens</v6:StreetLines> <v6:City>NY</v6:City> <v6:PostalCode>11385</v6:PostalCode> <v6:CountryCode>US</v6:CountryCode> </v6:Address> </v6:Shipper> <v6:Recipient> <v6:Contact> <v6:PersonName>Test</v6:PersonName> <v6:CompanyName>Popcornapps</v6:CompanyName> <v6:PhoneNumber></v6:PhoneNumber> </v6:Contact> <v6:Address> <v6:StreetLines>8989 Union</v6:StreetLines> <v6:StreetLines/> <v6:City>NY</v6:City> <v6:StateOrProvinceCode></v6:StateOrProvinceCode> <v6:PostalCode>11385</v6:PostalCode> <v6:CountryCode>US</v6:CountryCode> </v6:Address> </v6:Recipient> <v6:RateRequestTypes>LIST</v6:RateRequestTypes> <v6:PackageCount>1</v6:PackageCount> <v6:PackageDetail>INDIVIDUAL_PACKAGES</v6:PackageDetail> <v6:RequestedPackages> <v6:SequenceNumber>1</v6:SequenceNumber> <v6:InsuredValue> <v6:Currency>USD</v6:Currency> <v6:Amount>0</v6:Amount> </v6:InsuredValue> <v6:Weight> <v6:Units>KG</v6:Units> <v6:Value>2.0</v6:Value> </v6:Weight> <v6:Dimensions> <v6:Length>22</v6:Length> <v6:Width>16</v6:Width> <v6:Height>17</v6:Height> <v6:Units>CM</v6:Units> </v6:Dimensions> </v6:RequestedPackages> </v6:RequestedShipment> </v6:RateRequest> </soapenv:Body> </soapenv:Envelope>';
+        String soapXML = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://fedex.com/ws/track/v18"> <SOAP-ENV:Body> <TrackRequest> <WebAuthenticationDetail> <UserCredential> <Key>'+key+'</Key> <Password>'+pass+'</Password> </UserCredential> </WebAuthenticationDetail> <ClientDetail> <AccountNumber>'+accountNo+'</AccountNumber> <MeterNumber>'+meterNo+'</MeterNumber> </ClientDetail> <TransactionDetail> <CustomerTransactionId>Track By Number_v18</CustomerTransactionId> <Localization> <LanguageCode>EN</LanguageCode> </Localization> </TransactionDetail> <Version> <ServiceId>trck</ServiceId> <Major>18</Major> <Intermediate>0</Intermediate> <Minor>0</Minor> </Version> <SelectionDetails> <PackageIdentifier> <Type>TRACKING_NUMBER_OR_DOORTAG</Type> <Value>231300687629630</Value> </PackageIdentifier> </SelectionDetails> <ProcessingOptions>INCLUDE_DETAILED_SCANS</ProcessingOptions> </TrackRequest> </SOAP-ENV:Body> </SOAP-ENV:Envelope>';
+        req.setBody(soapXML);
+        req.setEndpoint(url);
+        req.setMethod('POST');
+        req.setHeader('Content-length', '1753' );
+        req.setHeader('Content-Type', 'text/xml;charset=UTF-8');  
+        req.setHeader('SOAPAction','getRates');
+        HttpResponse res = h.send(req);
+        String xml = res.getBody();
+       
+        System.debug('xml---- '+xml);
+        System.debug('res.getBody()---- '+res.getBody());
+    }
+
+}
